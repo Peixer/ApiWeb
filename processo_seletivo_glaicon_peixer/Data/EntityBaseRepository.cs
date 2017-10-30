@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -21,32 +20,6 @@ namespace processo_seletivo_glaicon_peixer.Data
             return context.Set<T>().AsEnumerable();
         }
         
-        public T GetSingle(Guid guid)
-        {
-            return context.Set<T>().FirstOrDefault(x => x.Guid == guid);
-        }
-
-        public T GetSingle(Expression<Func<T, bool>> predicate)
-        {
-            return context.Set<T>().FirstOrDefault(predicate);
-        }
-
-        public T GetSingle(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
-        {
-            IQueryable<T> query = context.Set<T>();
-            foreach (var includeProperty in includeProperties)
-            {
-                query = query.Include(includeProperty);
-            }
-
-            return query.Where(predicate).FirstOrDefault();
-        }
-
-        public virtual IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate)
-        {
-            return context.Set<T>().Where(predicate);
-        }
-
         public virtual T Add(T entity)
         {
             EntityEntry dbEntityEntry = context.Entry<T>(entity);
@@ -62,15 +35,16 @@ namespace processo_seletivo_glaicon_peixer.Data
             EntityEntry dbEntityEntry = context.Update<T>(entity);
         }
 
-        public virtual void Delete(T entity)
+        public virtual void Delete(Guid id)
         {
-            EntityEntry dbEntityEntry = context.Entry<T>(entity);
+            EntityEntry dbEntityEntry = context.Entry<T>(GetSingle(id));
             dbEntityEntry.State = EntityState.Deleted;
+            context.SaveChanges();
         }
 
-        public virtual void Commit()
+        private T GetSingle(Guid id)
         {
-            context.SaveChanges();
+            return context.Set<T>().Find(id);
         }
     }
 }

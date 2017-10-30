@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -8,8 +9,6 @@ using NPOI.HPSF;
 using NPOI.HSSF.UserModel;
 using processo_seletivo_glaicon_peixer.Data;
 using processo_seletivo_glaicon_peixer.Model;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace processo_seletivo_glaicon_peixer.Controllers
 {
@@ -23,10 +22,22 @@ namespace processo_seletivo_glaicon_peixer.Controllers
             this.repositorio = repositorio;
         }
 
+        [HttpDelete("{id}")]
+        public void Delete(Guid id)
+        {
+            repositorio.Delete(id);
+        }
+
         [HttpPost]
         public Usuario Post([FromBody]Usuario usuario)
         {
             return repositorio.Add(usuario);
+        }
+
+        [HttpGet]
+        public IEnumerable<Usuario> Get()
+        {
+            return repositorio.GetAll();
         }
 
         [HttpGet("xlsx")]
@@ -58,7 +69,7 @@ namespace processo_seletivo_glaicon_peixer.Controllers
             hssfworkbook.Write(file);
             file.Close();
 
-            var response =  new HttpResponseMessage(HttpStatusCode.OK)
+            var response = new HttpResponseMessage(HttpStatusCode.OK)
             {
                 Content = new StreamContent(file)
             };

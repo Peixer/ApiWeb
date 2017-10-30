@@ -5,7 +5,7 @@ namespace processo_seletivo_glaicon_peixer.Data
 {
     public class DataContext : DbContext
     {
-        public DbSet<Usuario> Candidatos { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
 
         public DataContext()
         {
@@ -29,7 +29,7 @@ namespace processo_seletivo_glaicon_peixer.Data
                 .IsRequired();
 
             modelBuilder.Entity<Usuario>()
-                .HasKey(x => x.Guid);
+                .HasKey(x => x.Id);
         }
     }
 }
