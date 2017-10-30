@@ -22,7 +22,7 @@ namespace processo_seletivo_glaicon_peixer.Data
         
         public virtual T Add(T entity)
         {
-            EntityEntry dbEntityEntry = context.Entry<T>(entity);
+            context.Entry<T>(entity);
             var entry = context.Set<T>().Add(entity);
 
             context.SaveChanges();
@@ -32,12 +32,14 @@ namespace processo_seletivo_glaicon_peixer.Data
 
         public virtual void Update(T entity)
         {
-            EntityEntry dbEntityEntry = context.Update<T>(entity);
+            context.Update<T>(entity);
+            context.SaveChanges();
         }
 
         public virtual void Delete(Guid id)
         {
-            EntityEntry dbEntityEntry = context.Entry<T>(GetSingle(id));
+            var single = GetSingle(id);
+            EntityEntry dbEntityEntry = context.Entry<T>(single);
             dbEntityEntry.State = EntityState.Deleted;
             context.SaveChanges();
         }
