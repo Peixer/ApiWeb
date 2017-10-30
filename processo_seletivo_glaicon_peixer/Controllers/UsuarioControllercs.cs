@@ -34,10 +34,17 @@ namespace processo_seletivo_glaicon_peixer.Controllers
             return repositorio.Add(usuario);
         }
 
+        //todo não deve apresentar propriedade GUID
         [HttpGet]
         public IEnumerable<Usuario> Get()
         {
             return repositorio.GetAll();
+        }
+
+        [HttpGet("{id}")]
+        public Usuario Get(Guid id)
+        {
+            return repositorio.GetSingle(id);
         }
 
         [HttpGet("xlsx")]

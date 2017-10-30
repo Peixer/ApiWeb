@@ -9,5 +9,6 @@ namespace processo_seletivo_glaicon_peixer.Data
         T Add(T entity);
         void Update(T entity);
         void Delete(Guid id);
+        T GetSingle(Guid id);
     }
 }

@@ -42,7 +42,7 @@ namespace processo_seletivo_glaicon_peixer.Data
             context.SaveChanges();
         }
 
-        private T GetSingle(Guid id)
+        public T GetSingle(Guid id)
         {
             return context.Set<T>().Find(id);
         }
